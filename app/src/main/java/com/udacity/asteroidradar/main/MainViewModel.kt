@@ -1,57 +1,30 @@
 package com.udacity.asteroidradar.main
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.database.AsteroidDatabase
+import com.udacity.asteroidradar.repository.AsteroidsRepository
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    val asteroids = listOf(
-        Asteroid(
-            id = 1,
-            codename = "XDR4093",
-            closeApproachDate = "2023-04-12",
-            absoluteMagnitude = 3.45,
-            estimatedDiameter = 1003.2,
-            relativeVelocity = 356.42,
-            distanceFromEarth = 2134.2,
-            isPotentiallyHazardous = true
-        ),
-        Asteroid(
-            id = 2,
-            codename = "FDR4093",
-            closeApproachDate = "2022-05-12",
-            absoluteMagnitude = 2.45,
-            estimatedDiameter = 5003.2,
-            relativeVelocity = 6.42,
-            distanceFromEarth = 1134.2,
-            isPotentiallyHazardous = true
-        ),
-        Asteroid(
-            id = 3,
-            codename = "XDR403",
-            closeApproachDate = "2021-04-12",
-            absoluteMagnitude = 3.435,
-            estimatedDiameter = 31003.2,
-            relativeVelocity = 56.42,
-            distanceFromEarth = 22134.2,
-            isPotentiallyHazardous = false
-        ),
-        Asteroid(
-            id = 4,
-            codename = "XR40sd93",
-            closeApproachDate = "2013-06-12",
-            absoluteMagnitude = 13.45,
-            estimatedDiameter = 10043.2,
-            relativeVelocity = 46.42,
-            distanceFromEarth = 32134.2,
-            isPotentiallyHazardous = false
-        )
-    )
+    private val database = AsteroidDatabase.getInstance(application)
+    private val asteroidsRepository = AsteroidsRepository(database)
 
     private val _navigateToAsteroidDetail = MutableLiveData<Asteroid?>()
     val navigateToAsteroidDetail
         get() = _navigateToAsteroidDetail
+
+    init {
+        viewModelScope.launch {
+            asteroidsRepository.refreshAsteroids()
+        }
+    }
+
+    val asteroids = asteroidsRepository.asteroids
 
     fun onAsteroidClicked(asteroid: Asteroid) {
         _navigateToAsteroidDetail.value = asteroid

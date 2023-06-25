@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="#55010613"
-                android:padding="16dp"
+                android:padding="@dimen/list_item_spacing"
                 android:text="@string/image_of_the_day"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"

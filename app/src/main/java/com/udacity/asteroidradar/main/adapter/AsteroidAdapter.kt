@@ -4,6 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.main.viewholder.AsteroidListener
+import com.udacity.asteroidradar.main.viewholder.AsteroidViewHolder
 
 internal class AsteroidAdapter(
     private val clickListener: AsteroidListener

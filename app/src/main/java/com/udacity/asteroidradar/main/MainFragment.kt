@@ -1,22 +1,30 @@
 package com.udacity.asteroidradar.main
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.main.adapter.AsteroidAdapter
-import com.udacity.asteroidradar.main.adapter.AsteroidListener
+import com.udacity.asteroidradar.main.viewholder.AsteroidListener
 
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private val viewModel: MainViewModel by viewModels()
 
-    private lateinit var asteroidListener: AsteroidListener
-    private val asteroidAdapter by lazy { AsteroidAdapter(asteroidListener) }
+    private val asteroidAdapter by lazy {
+        AsteroidAdapter(AsteroidListener { asteroid ->
+            viewModel.onAsteroidClicked(asteroid)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,12 +39,9 @@ class MainFragment : Fragment() {
             asteroidRecycler.adapter = asteroidAdapter
         }
 
-        asteroidListener = AsteroidListener { asteroid ->
-            viewModel.onAsteroidClicked(asteroid)
+        viewModel.asteroids.observe(viewLifecycleOwner) { asteroids ->
+            asteroidAdapter.submitList(asteroids)
         }
-
-        // TODO: test data
-        asteroidAdapter.submitList(viewModel.asteroids)
 
         viewModel.navigateToAsteroidDetail.observe(viewLifecycleOwner) { asteroid ->
             asteroid?.let {

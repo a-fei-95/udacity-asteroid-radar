@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.main.adapter
+package com.udacity.asteroidradar.main.viewholder
 
 import com.udacity.asteroidradar.data.Asteroid
 
