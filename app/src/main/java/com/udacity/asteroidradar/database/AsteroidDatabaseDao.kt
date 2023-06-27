@@ -14,4 +14,7 @@ interface AsteroidDatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids: DatabaseAsteroid)
+
+    @Query("DELETE FROM asteroids_table")
+    suspend fun clear()
 }
