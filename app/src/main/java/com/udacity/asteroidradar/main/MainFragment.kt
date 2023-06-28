@@ -47,6 +47,7 @@ class MainFragment : Fragment() {
         viewModel.apod.observe(viewLifecycleOwner) { apod ->
             if (apod.mediaType == "image") {
                 Picasso.with(context).load(apod.url).into(binding.activityMainImageOfTheDay)
+                binding.activityMainImageOfTheDay.contentDescription = apod.title
             }
         }
 

@@ -20,9 +20,17 @@ class DetailFragment : Fragment() {
     ): View {
         binding = FragmentDetailBinding.inflate(inflater)
 
+        val selectedAsteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
+
         with(binding) {
             lifecycleOwner = this@DetailFragment
-            asteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
+            asteroid = selectedAsteroid
+            detailsImage.contentDescription = getString(
+                when (selectedAsteroid.isPotentiallyHazardous) {
+                    true -> R.string.details_image_potentially_hazardous_cd
+                    false -> R.string.details_image_non_hazardous_cd
+                }
+            )
             helpButton.setOnClickListener {
                 displayAstronomicalUnitExplanationDialog()
             }

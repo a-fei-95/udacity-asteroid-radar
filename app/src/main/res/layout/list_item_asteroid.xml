@@ -34,6 +34,7 @@
             android:textColor="@color/default_text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/asteroid_close_approach_date_tv"
             tools:text="ASTEROID:951124"
             />
 
@@ -41,10 +42,12 @@
             android:id="@+id/asteroid_close_approach_date_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@{asteroid.closeApproachDate}"
             android:textColor="@color/default_text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/asteroid_codename_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="2023-06-12"
             />
 
